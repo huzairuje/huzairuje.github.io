@@ -29,6 +29,7 @@ github_username:  huzairuje
 
 # Build settings
 # theme: minima
+remote_theme: samarsault/plainwhite-jekyll
 theme: plainwhite
 plugins:
   - jekyll-feed
