@@ -23,12 +23,13 @@ email: muhammadhuzair@gmail.com
 description: >- # this means to ignore newlines until "baseurl:"
   hi, i am huzairuje
 baseurl: "" # the subpath of your site, e.g. /blog
-url: "" # the base hostname & protocol for your site, e.g. http://example.com
+url: "https://huzairuje.github.io" # the base hostname & protocol for your site, e.g. http://example.com
 twitter_username: Huzairuje
 github_username:  huzairuje
 
 # Build settings
-theme: minima
+# theme: minima
+theme: plainwhite
 plugins:
   - jekyll-feed
 
@@ -51,3 +52,26 @@ plugins:
 #   - vendor/cache/
 #   - vendor/gems/
 #   - vendor/ruby/
+
+plainwhite:
+  name: Muhammad Huzair
+  tagline: Software Engineer
+  date_format: "%b %-d, %Y"
+
+  social_links:
+    twitter: Huzairuje
+    github: huzairuje
+    linkedIn: in/muhammadhuzair-327479b2/ # format: locale/username
+
+  navigation:
+    - title: Portfolio
+      url: "/portfolio"
+
+  condensed_mobile:
+    - home
+    - post
+    - page
+
+  dark_mode: true
+  search: true
+  portfolio_image:  "assets/portfolio.png"
