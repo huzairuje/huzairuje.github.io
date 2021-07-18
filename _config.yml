@@ -28,9 +28,9 @@ twitter_username: Huzairuje
 github_username:  huzairuje
 
 # Build settings
-# theme: minima
-remote_theme: samarsault/plainwhite-jekyll
-theme: plainwhite
+theme: minima
+# remote_theme: samarsault/plainwhite-jekyll
+# theme: plainwhite
 plugins:
   - jekyll-feed
 
