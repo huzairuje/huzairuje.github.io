@@ -54,25 +54,12 @@ plugins:
 #   - vendor/gems/
 #   - vendor/ruby/
 
-plainwhite:
+minima:
+  skin: dark
+  header_pages:
+  - about.markdown
+  - https://huzairuje.github.io/portfolio/
+
+  author:
   name: Muhammad Huzair
-  tagline: Software Engineer
-  date_format: "%b %-d, %Y"
-
-  social_links:
-    twitter: Huzairuje
-    github: huzairuje
-    linkedIn: in/muhammadhuzair-327479b2/ # format: locale/username
-
-  navigation:
-    - title: Portfolio
-      url: "/portfolio"
-
-  condensed_mobile:
-    - home
-    - post
-    - page
-
-  dark_mode: true
-  search: true
-  portfolio_image:  "assets/portfolio.png"
+  email: "muhammadhuzair@gmail.com"
