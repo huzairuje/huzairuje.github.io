@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "The Dangers of Pagination with OFFSET and LIMIT"
-date: 2026-05-04 09:00:00 +0700
+date: 2026-05-04 01:00:00 +0700
 categories: database sql performance
 tags: [sql, postgresql, database, performance, backend]
 description: "Why OFFSET/LIMIT pagination kills your database performance at scale, and how to implement Keyset Pagination (Cursor Pagination) instead."

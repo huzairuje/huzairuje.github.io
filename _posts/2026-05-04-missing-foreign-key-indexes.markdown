@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "The Hidden Cost of Missing Foreign Key Indexes"
-date: 2026-05-04 11:00:00 +0700
+date: 2026-05-04 01:10:00 +0700
 categories: database sql performance
 tags: [sql, postgresql, database, indexing, performance]
 description: "Why you should almost always index your foreign keys, and the catastrophic performance hits that occur on DELETE and UPDATE when you don't."

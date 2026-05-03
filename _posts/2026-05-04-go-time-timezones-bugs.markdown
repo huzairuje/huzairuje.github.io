@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Timezones and time.Time Bugs in Go"
-date: 2026-05-04 16:00:00 +0700
+date: 2026-05-04 01:10:00 +0700
 categories: golang backend architecture
 tags: [golang, time, timezone, backend, bugs]
 description: "How time.Time equality works in Go, why DeepEqual fails on times, and how to safely store and transmit timestamps in backend systems."

@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Zero-Downtime Database Migrations on Large Tables"
-date: 2026-05-04 12:00:00 +0700
+date: 2026-05-04 01:10:00 +0700
 categories: database backend architecture
 tags: [sql, postgresql, database, migrations, backend]
 description: "How to safely add columns, build indexes, and modify schema on massive PostgreSQL tables without causing production downtime or lock contention."

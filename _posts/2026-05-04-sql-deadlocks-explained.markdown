@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "SQL Deadlocks: Why They Happen and How to Fix Them"
-date: 2026-05-04 08:00:00 +0700
+date: 2026-05-04 01:10:00 +0700
 categories: database sql backend
 tags: [sql, postgresql, database, backend, deadlocks]
 description: "A deep dive into why SQL deadlocks occur in concurrent backend systems and how to fix them with consistent ordering and retry mechanisms."
