@@ -1,0 +1,153 @@
+---
+layout: default
+---
+
+<div class="home">
+  {%- if page.title -%}
+    <h1 class="page-heading">{{ page.title }}</h1>
+  {%- endif -%}
+
+  {{ content }}
+
+  {%- if site.posts.size > 0 -%}
+    <h2 class="post-list-heading">{{ page.list_title | default: "Posts" }}</h2>
+
+    <!-- Post Filters UI -->
+    <div class="post-filters">
+      <div class="filter-group search-group" style="flex-grow: 1;">
+        <label for="filter-search">Search</label>
+        <input type="text" id="filter-search" placeholder="Search by title or content..." autocomplete="off">
+      </div>
+      <div class="filter-group">
+        <label for="filter-tag">Filter by Tag</label>
+        <select id="filter-tag">
+          <option value="all">All Tags</option>
+          <!-- Tags populated by JS -->
+        </select>
+      </div>
+      <div class="filter-group">
+        <label for="filter-date">Filter by Month</label>
+        <select id="filter-date">
+          <option value="all">All Dates</option>
+          <!-- Dates populated by JS -->
+        </select>
+      </div>
+    </div>
+
+    <ul class="post-list" id="post-list">
+      {%- for post in site.posts -%}
+      {%- assign date_format = site.minima.date_format | default: "%b %-d, %Y" -%}
+      {%- assign post_month = post.date | date: "%B %Y" -%}
+      
+      <li class="post-item" data-url="{{ post.url | relative_url }}" data-tags="{{ post.tags | join: ',' }}" data-month="{{ post_month }}">
+        <span class="post-meta">{{ post.date | date: date_format }}</span>
+        <h3>
+          <a class="post-link" href="{{ post.url | relative_url }}">
+            {{ post.title | escape }}
+          </a>
+        </h3>
+        {%- if site.show_excerpts -%}
+          {{ post.excerpt }}
+        {%- endif -%}
+      </li>
+      {%- endfor -%}
+    </ul>
+
+    <p class="rss-subscribe">subscribe <a href="{{ "/feed.xml" | relative_url }}">via RSS</a></p>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        const tagFilter = document.getElementById('filter-tag');
+        const dateFilter = document.getElementById('filter-date');
+        const searchInput = document.getElementById('filter-search');
+        const posts = document.querySelectorAll('.post-item');
+
+        const allTags = new Set();
+        const allMonths = new Set();
+        
+        let searchData = null;
+        let isFetchingSearch = false;
+
+        // Extract all tags and months from posts
+        posts.forEach(post => {
+          const tags = post.getAttribute('data-tags').split(',').filter(t => t.trim() !== '');
+          const month = post.getAttribute('data-month');
+          
+          tags.forEach(t => allTags.add(t));
+          if(month) allMonths.add(month);
+        });
+
+        // Populate dropdowns
+        Array.from(allTags).sort().forEach(tag => {
+          const option = document.createElement('option');
+          option.value = tag;
+          option.textContent = tag;
+          tagFilter.appendChild(option);
+        });
+
+        Array.from(allMonths).sort().reverse().forEach(month => {
+          const option = document.createElement('option');
+          option.value = month;
+          option.textContent = month;
+          dateFilter.appendChild(option);
+        });
+
+        // Lazy load search data on focus
+        searchInput.addEventListener('focus', () => {
+          if (!searchData && !isFetchingSearch) {
+            isFetchingSearch = true;
+            fetch('{{ "/search.json" | relative_url }}')
+              .then(res => res.json())
+              .then(data => {
+                searchData = data;
+              })
+              .catch(err => console.error('Error fetching search data', err));
+          }
+        });
+
+        // Filter Logic
+        function filterPosts() {
+          const selectedTag = tagFilter.value;
+          const selectedMonth = dateFilter.value;
+          const query = searchInput.value.toLowerCase().trim();
+
+          let matchedUrls = null;
+
+          // If there is a search query and data is loaded
+          if (query && searchData) {
+            matchedUrls = new Set();
+            searchData.forEach(item => {
+              const titleMatch = item.title.toLowerCase().includes(query);
+              const excerptMatch = item.excerpt.includes(query);
+              const tagMatch = item.tags.includes(query);
+              if (titleMatch || excerptMatch || tagMatch) {
+                matchedUrls.add(item.url);
+              }
+            });
+          }
+
+          posts.forEach(post => {
+            const postTags = post.getAttribute('data-tags').split(',');
+            const postMonth = post.getAttribute('data-month');
+            const postUrl = post.getAttribute('data-url');
+
+            const matchTag = selectedTag === 'all' || postTags.includes(selectedTag);
+            const matchMonth = selectedMonth === 'all' || postMonth === selectedMonth;
+            const matchSearch = !matchedUrls || matchedUrls.has(postUrl);
+
+            if (matchTag && matchMonth && matchSearch) {
+              post.style.display = 'block';
+            } else {
+              post.style.display = 'none';
+            }
+          });
+        }
+
+        tagFilter.addEventListener('change', filterPosts);
+        dateFilter.addEventListener('change', filterPosts);
+        searchInput.addEventListener('input', filterPosts);
+      });
+    </script>
+  {%- endif -%}
+
+</div>

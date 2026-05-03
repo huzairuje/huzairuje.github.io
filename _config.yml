@@ -34,6 +34,7 @@ social:
 
 # ─── Build Settings ──────────────────────────────────────────────────────────
 theme: minima
+future: false
 plugins:
   - jekyll-feed
   - jekyll-seo-tag
