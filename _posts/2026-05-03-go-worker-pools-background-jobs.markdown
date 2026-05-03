@@ -4,6 +4,7 @@ title: "Go Worker Pools, Job Queues, and Background Processing"
 date: 2026-05-03 12:30:00 +0700
 categories: golang backend concurrency
 tags: [golang, worker-pool, concurrency, background-jobs, redis]
+description: "Implementing safe background processing in Go: bounded worker pools, durable job queues with Asynq and Redis, cron scheduling, and graceful shutdown to avoid losing in-flight jobs."
 ---
 
 Background processing is where Go shines. Goroutines are cheap (~2KB stack), but unbounded concurrency is still dangerous. Here's how to build robust background job systems.

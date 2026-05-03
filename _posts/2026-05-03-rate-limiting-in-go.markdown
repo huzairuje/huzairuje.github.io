@@ -4,6 +4,7 @@ title: "Rate Limiting in Go: Token Bucket, Sliding Window, and Redis"
 date: 2026-05-03 09:00:00 +0700
 categories: golang backend performance
 tags: [golang, rate-limiting, redis, token-bucket, backend]
+description: "Production-grade rate limiting in Go: token bucket with golang.org/x/time/rate, distributed sliding window with Redis Lua scripts, and adaptive throttling based on system health."
 ---
 
 Uncontrolled traffic kills backends. Rate limiting is not optional in production — it's the difference between a degraded service and a complete outage. Here's how to implement it correctly in Go.

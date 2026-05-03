@@ -4,6 +4,7 @@ title: "Event-Driven Architecture in Go with Kafka"
 date: 2026-05-03 10:30:00 +0700
 categories: golang backend event-driven
 tags: [golang, kafka, event-driven, messaging, backend]
+description: "Building reliable event-driven systems in Go with Kafka. Covers franz-go producer/consumer setup, dead letter queues, idempotency, and schema evolution."
 ---
 
 Event-driven architecture (EDA) decouples producers from consumers, enabling independent scaling and resilience. Go's concurrency model makes it a natural fit for building Kafka-based event pipelines.

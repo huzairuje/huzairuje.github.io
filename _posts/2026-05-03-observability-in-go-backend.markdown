@@ -4,6 +4,7 @@ title: "Observability in Go: Structured Logging, Metrics, and Distributed Tracin
 date: 2026-05-03 11:30:00 +0700
 categories: golang backend observability
 tags: [golang, observability, opentelemetry, prometheus, logging]
+description: "The three pillars of observability for Go backends: structured logging with slog, Prometheus metrics with golden signals, and distributed tracing with OpenTelemetry."
 ---
 
 You cannot debug what you cannot observe. In distributed Go systems, the three pillars of observability — logs, metrics, and traces — are non-negotiable. Here's how to implement them correctly from day one.

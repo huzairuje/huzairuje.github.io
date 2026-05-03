@@ -4,6 +4,7 @@ title: "gRPC in Go: Building High-Performance Service-to-Service APIs"
 date: 2026-05-03 12:00:00 +0700
 categories: golang backend grpc
 tags: [golang, grpc, protobuf, microservices, backend]
+description: "Building high-performance service-to-service APIs in Go with gRPC and Protocol Buffers. Covers server streaming, interceptors, retry policies, and domain error mapping."
 ---
 
 REST is great for public APIs. For internal service-to-service communication, gRPC offers strongly-typed contracts, bidirectional streaming, and significantly better performance.

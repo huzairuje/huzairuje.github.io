@@ -4,6 +4,7 @@ title: "Monolith vs Microservices in Go: Choosing the Right Architecture"
 date: 2026-05-03 08:00:00 +0700
 categories: golang backend architecture
 tags: [golang, monolith, microservices, architecture, backend]
+description: "A practical framework for choosing between monolith and microservices in Go. Covers the strangler fig pattern, go work for multi-module repos, and a real-world decision checklist."
 ---
 
 Every Go backend project starts with the same question: **monolith or microservices?** The wrong answer at the start costs months of refactoring. Here's a practical framework based on real production experience.

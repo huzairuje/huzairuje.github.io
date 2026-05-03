@@ -4,6 +4,7 @@ title: "Distributed Transactions in Go: Sagas, Outbox, and 2PC"
 date: 2026-05-03 08:30:00 +0700
 categories: golang backend distributed-systems
 tags: [golang, distributed-transactions, saga, outbox, 2pc]
+description: "How to handle distributed transactions in Go without losing data. Deep dive into the Saga pattern, Transactional Outbox, Two-Phase Commit, and compensating transactions."
 ---
 
 The hardest problem in distributed systems isn't consensus — it's money changing hands across service boundaries. Here's how real Go backends handle it.

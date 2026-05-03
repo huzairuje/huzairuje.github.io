@@ -4,6 +4,7 @@ title: "Database Connection Pooling and Query Optimization in Go"
 date: 2026-05-03 10:00:00 +0700
 categories: golang backend database
 tags: [golang, database, postgresql, connection-pool, performance]
+description: "Fixing the most common Go database performance problems: N+1 queries, connection pool sizing with pgx, bulk inserts with COPY, and index strategy for PostgreSQL."
 ---
 
 Most Go backend performance problems trace back to the database. Connection pool misconfiguration and N+1 queries are responsible for more production incidents than any other cause.

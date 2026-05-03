@@ -4,6 +4,7 @@ title: "Caching Strategies in Go: From In-Process to Distributed"
 date: 2026-05-03 11:00:00 +0700
 categories: golang backend caching
 tags: [golang, redis, caching, performance, backend]
+description: "Multi-layer caching in Go from in-process ristretto to Redis. Covers stampede protection with singleflight, probabilistic early refresh, and tag-based cache invalidation."
 ---
 
 Cache invalidation is one of the two hard problems in computer science. The other is naming. Here's how to implement caching in Go without shooting yourself in the foot.

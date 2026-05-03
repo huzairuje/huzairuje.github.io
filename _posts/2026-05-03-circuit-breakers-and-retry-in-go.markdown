@@ -4,6 +4,7 @@ title: "Building Resilient Go Services: Circuit Breakers and Retry Strategies"
 date: 2026-05-03 09:30:00 +0700
 categories: golang backend resilience
 tags: [golang, circuit-breaker, retry, resilience, backend]
+description: "Building resilient Go services with exponential backoff, jitter, circuit breakers, and bulkhead isolation. Includes a full resilient HTTP client implementation."
 ---
 
 In distributed systems, **partial failure is the norm**. A downstream service being slow is more dangerous than it being completely down. Circuit breakers and retry strategies are your first line of defense.

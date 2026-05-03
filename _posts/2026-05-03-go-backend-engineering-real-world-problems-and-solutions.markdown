@@ -4,6 +4,7 @@ title:  "Go Backend Engineering: Real-World Problems, Bugs, and Solutions"
 date:   2026-05-03 10:00:00 +0700
 categories: golang backend engineering
 tags: [golang, backend, bugs, concurrency, goroutine, real-world, roadmap]
+description: "Real-world Go backend engineering problems and solutions: goroutine leaks, slice capacity bugs, database transaction pitfalls, and production-tested fixes."
 ---
 
 # Go Backend Engineering: Navigating Real-World Challenges
