@@ -1,0 +1,43 @@
+---
+# Only the main Sass file needs front matter (the dashes are enough)
+---
+
+@import "minima";
+
+/* ─── Font size overrides ─── */
+html {
+  font-size: 14px; /* minima default is 16px, reduce globally */
+}
+
+body {
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+/* Post / page title */
+.post-title,
+h1.post-title {
+  font-size: 1.8rem !important;
+  line-height: 1.25;
+}
+
+/* Section headings inside posts */
+.post-content h1 { font-size: 1.6rem; }
+.post-content h2 { font-size: 1.35rem; }
+.post-content h3 { font-size: 1.15rem; }
+.post-content h4 { font-size: 1.05rem; }
+
+/* Site header / title link */
+.site-title {
+  font-size: 1.3rem !important;
+}
+
+/* Index post list titles */
+.post-list h3 {
+  font-size: 1.2rem;
+}
+
+/* Code blocks – keep monospace legible but not huge */
+pre, code {
+  font-size: 0.82rem;
+}

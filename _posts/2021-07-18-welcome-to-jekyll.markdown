@@ -1,29 +1,36 @@
 ---
 layout: post
-title:  "Welcome to Jekyll!"
-date:   2021-07-18 10:57:18 +0700
-categories: jekyll update
+title: "Welcome to My Bugs and Solutions on Real-World Backend Engineering"
+date: 2021-07-18 10:57:18 +0700
+categories: backend introduction
 ---
-You’ll find this post in your `_posts` directory. Go ahead and edit it and re-build the site to see your changes. You can rebuild the site in many different ways, but the most common way is to run `jekyll serve`, which launches a web server and auto-regenerates your site when a file is updated.
 
-Jekyll requires blog post files to be named according to the following format:
+Hey there! I'm **Muhammad Huzair** — a backend engineer who's been in the trenches of production systems, chasing bugs at 3 AM, and rebuilding things that "shouldn't have broken in the first place."
 
-`YEAR-MONTH-DAY-title.MARKUP`
+This blog is where I document the real stuff: the production incidents, the subtle concurrency bugs, the database pitfalls, and the architectural decisions that look obvious in hindsight. No hand-wavy theory — just real problems I've hit and the solutions that actually worked.
 
-Where `YEAR` is a four-digit number, `MONTH` and `DAY` are both two-digit numbers, and `MARKUP` is the file extension representing the format used in the file. After that, include the necessary front matter. Take a look at the source for this post to get an idea about how it works.
+## Who Am I?
 
-Jekyll also offers powerful support for code snippets:
+I build backend systems in **Go**, primarily focused on distributed systems, microservices, and high-throughput APIs. I've worked on order management platforms, fleet tracking systems, AI streaming backends, and billing services — all in production, all with real users, all with real bugs.
 
-{% highlight ruby %}
-def print_hi(name)
-  puts "Hi, #{name}"
-end
-print_hi('Tom')
-#=> prints 'Hi, Tom' to STDOUT.
-{% endhighlight %}
+You can find more about my work and projects on my **[portfolio →](https://huzairuje.github.io/portfolio)**.
 
-Check out the [Jekyll docs][jekyll-docs] for more info on how to get the most out of Jekyll. File all bugs/feature requests at [Jekyll’s GitHub repo][jekyll-gh]. If you have questions, you can ask them on [Jekyll Talk][jekyll-talk].
+The portfolio covers the projects I've shipped, the tech stack I work with, and a deeper look at the kinds of systems I love building.
 
-[jekyll-docs]: https://jekyllrb.com/docs/home
-[jekyll-gh]:   https://github.com/jekyll/jekyll
-[jekyll-talk]: https://talk.jekyllrb.com/
+## What You'll Find Here
+
+Every post on this blog comes from something I actually ran into:
+
+- **Distributed systems pitfalls** — sagas, outbox patterns, event ordering problems
+- **Go concurrency bugs** — goroutine leaks, race conditions, channel deadlocks
+- **Database performance** — N+1 queries, connection pool misconfiguration, slow migrations
+- **Resilience patterns** — circuit breakers, retry strategies, rate limiting under load
+- **Observability** — how I debug systems I can't directly inspect
+
+These are the bugs that kept me up at night. Hopefully they save you some sleep.
+
+## Start Reading
+
+Check out the latest posts below, or jump straight to a topic that matches the pain you're feeling right now. If something resonates, feel free to reach out — I'm always happy to talk backend.
+
+Happy debugging. 🐛
