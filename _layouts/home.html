@@ -96,7 +96,7 @@ layout: default
         searchInput.addEventListener('focus', () => {
           if (!searchData && !isFetchingSearch) {
             isFetchingSearch = true;
-            fetch('{{ "/search.json" | relative_url }}')
+            fetch('{{ "/search.json" | relative_url }}?v=' + new Date().getTime())
               .then(res => res.json())
               .then(data => {
                 searchData = data;
