@@ -12,6 +12,7 @@ description: >-
 url: "https://huzairuje.github.io"
 baseurl: ""
 lang: en
+timezone: Asia/Jakarta
 
 # ─── Author ──────────────────────────────────────────────────────────────────
 author:
