@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Concurrency in Go: sync.Map vs map + sync.RWMutex"
-date: 2026-05-04 14:00:00 +0700
+date: 2026-05-04 02:30:00 +0700
 categories: golang backend concurrency
 tags: [golang, concurrency, data-structures, performance]
 description: "When to use Go's built-in map with an RWMutex vs the specialized sync.Map for concurrent access in backend applications."

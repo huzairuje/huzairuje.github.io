@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Pessimistic vs Optimistic Locking in Concurrent Backends"
-date: 2026-05-04 10:00:00 +0700
+date: 2026-05-04 02:50:00 +0700
 categories: database backend concurrency
 tags: [sql, database, concurrency, backend]
 description: "How to handle high-concurrency race conditions in your database using pessimistic locking (FOR UPDATE) and optimistic locking (version numbers)."

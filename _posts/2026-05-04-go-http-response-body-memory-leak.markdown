@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "The Silent Go Memory Leak: Unclosed HTTP Response Bodies"
-date: 2026-05-04 13:00:00 +0700
+date: 2026-05-04 02:40:00 +0700
 categories: golang backend performance
 tags: [golang, http, memory-leak, performance, backend]
 description: "A common Go bug where failing to close the HTTP response body drains connection pools, leaks memory, and crashes production services."

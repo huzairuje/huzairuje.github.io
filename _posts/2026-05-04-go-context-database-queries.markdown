@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Handling Context Cancellations Correctly in Go Database Queries"
-date: 2026-05-04 15:00:00 +0700
+date: 2026-05-04 02:20:00 +0700
 categories: golang backend database
 tags: [golang, database, context, backend]
 description: "Why passing context.Background() to database queries is a bad idea, and how to properly handle timeouts and client disconnects using context.Context."

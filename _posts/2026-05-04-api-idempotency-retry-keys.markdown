@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "API Idempotency: Why You Need Retry Keys"
-date: 2026-05-04 17:00:00 +0700
+date: 2026-05-04 02:10:00 +0700
 categories: backend architecture
 tags: [backend, architecture, idempotency, api]
 description: "How to design idempotent APIs using Idempotency Keys to prevent double-charging users during network timeouts and retries."
