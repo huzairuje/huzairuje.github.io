@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Message Ordering Bugs in Go: Kafka Partitions Surprise"
-date: 2026-05-07 14:00:00 +0700
+date: 2026-05-07 01:00:00 +0700
 categories: golang backend messaging
 tags: [golang, kafka, ordering, events, distributed-systems]
 description: "How incorrect partition keys in event-driven systems break ordering guarantees and corrupt downstream state."

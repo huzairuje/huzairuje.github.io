@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Go Outbox Pattern: Stop Losing Events After Commit"
-date: 2026-05-07 12:00:00 +0700
+date: 2026-05-07 05:00:00 +0700
 categories: golang backend distributed-systems
 tags: [golang, outbox, events, transactions, kafka]
 description: "Why publishing events directly after DB commit causes inconsistencies, and how the outbox pattern fixes it in Go services."

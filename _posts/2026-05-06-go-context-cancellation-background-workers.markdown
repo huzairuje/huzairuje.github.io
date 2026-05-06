@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Go Context Cancellation: Why Your Workers Never Stop"
-date: 2026-05-07 16:00:00 +0700
+date: 2026-05-06 01:00:00 +0700
 categories: golang backend concurrency
 tags: [golang, context, workers, goroutines, concurrency]
 description: "A production bug where background worker goroutines ignored cancellation and leaked across deploys."

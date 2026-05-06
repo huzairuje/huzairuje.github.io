@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Retry Storms in Go: When Resilience Becomes an Outage"
-date: 2026-05-07 10:30:00 +0700
+date: 2026-05-07 07:00:00 +0700
 categories: golang backend resilience
 tags: [golang, retries, backoff, jitter, resilience]
 description: "A practical guide to preventing retry storms in Go services with bounded retries, jitter, and retry budgets."

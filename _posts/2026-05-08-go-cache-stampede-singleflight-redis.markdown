@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Go Cache Stampede: Fixing Redis Meltdowns with singleflight"
-date: 2026-05-08 12:00:00 +0700
+date: 2026-05-08 01:00:00 +0700
 categories: golang backend caching
 tags: [golang, redis, cache, singleflight, performance]
 description: "How cache expiration spikes can flood databases, and the Go singleflight pattern that collapses duplicate work."

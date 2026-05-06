@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Graceful Shutdown in Go: The In-Flight Request Trap"
-date: 2026-05-07 09:00:00 +0700
+date: 2026-05-06 04:00:00 +0700
 categories: golang backend reliability
 tags: [golang, shutdown, http, reliability, backend]
 description: "How a Go service can lose user requests during deploys, and the shutdown sequence that prevents dropped in-flight work."
