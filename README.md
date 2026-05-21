@@ -91,33 +91,22 @@ Short version: Jekyll filters out future posts at **build time**, and GitHub Pag
 | **B. Trigger a rebuild on the date** | A scheduled GitHub Actions workflow that runs `cron` daily and pushes an empty commit (or calls the Pages build API) | Keeps `future: false` semantics, posts go live near their declared date. Adds a small workflow to maintain. |
 | **C. Manual commit on the day** | Push any commit (even a whitespace change) on or after the post's date | Zero config, zero automation, but you have to remember. |
 
-### Recommended: Option B, scheduled rebuild
+### Implemented: Option B, smart scheduled rebuild
 
-If you want true "write now, publish on date X" behavior with `future: false` preserved, add `.github/workflows/scheduled-rebuild.yml`:
+This repo ships [`.github/workflows/scheduled-rebuild.yml`](.github/workflows/scheduled-rebuild.yml). It runs daily at **00:10 Asia/Jakarta** (17:10 UTC the previous day) and:
 
-```yaml
-name: Scheduled rebuild
-on:
-  schedule:
-    - cron: "5 0 * * *"   # 00:05 UTC daily
-  workflow_dispatch:
-jobs:
-  rebuild:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-          token: ${{ secrets.GITHUB_TOKEN }}
-      - name: Empty commit to trigger Pages build
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git commit --allow-empty -m "chore: scheduled rebuild"
-          git push
-```
+1. Lists files in `_posts/` and looks for any whose `YYYY-MM-DD-` prefix matches today's date in Asia/Jakarta.
+2. If a match exists, pushes an empty commit so GitHub Pages rebuilds and the post goes live.
+3. If nothing matches, exits silently — no empty commits on days you weren't publishing.
 
-That's the cleanest fix. Pages rebuilds once a day, and any post whose `date:` is now in the past gets picked up on the next run.
+It also exposes a `workflow_dispatch` trigger with a `force` input, so you can manually kick a rebuild from the Actions tab without waiting for the cron.
+
+**Requirements for it to work:**
+- The workflow needs `contents: write` permission. That's already declared in the YAML, but make sure your repo's *Settings → Actions → General → Workflow permissions* is set to **Read and write permissions** (or at least allows the default `GITHUB_TOKEN` to push).
+- Post filenames must match the convention `YYYY-MM-DD-slug.markdown` (or `.md`). The `YYYY-MM-DD` prefix is what the workflow uses to detect "goes live today."
+- The front-matter `date:` should agree with the filename date. Jekyll uses the front-matter date for `future` filtering, so if the filename says `2026-06-01-` but the front matter says `2026-07-01`, the workflow will commit on June 1 but Jekyll will still drop the post.
+
+**Tuning the schedule:** edit the `cron:` line. Cron in GitHub Actions is UTC. `10 17 * * *` is 00:10 the next day in Asia/Jakarta (UTC+7). If you want it to run earlier or later, adjust both the cron and your mental model of when posts go live.
 
 ### Why GitHub Pages doesn't "just know"
 
