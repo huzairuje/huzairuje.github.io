@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 480" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13">
+  <style>
+    .lane { stroke: #4b5263; stroke-width: 1; stroke-dasharray: 3 3; }
+    .head { fill: #1f2937; stroke: #5fb3b3; stroke-width: 1.5; }
+    .head-warn { fill: #1f2937; stroke: #fac863; stroke-width: 1.5; }
+    .head-down { fill: #1f2937; stroke: #ec5f67; stroke-width: 1.5; }
+    .label { fill: #e5e9f0; font-weight: 600; }
+    .sub { fill: #c0c5ce; font-size: 11px; }
+    .msg { stroke: #5fb3b3; stroke-width: 1.5; fill: none; }
+    .msg-fail { stroke: #ec5f67; stroke-width: 1.5; fill: none; stroke-dasharray: 4 3; }
+    .msg-ok { stroke: #99c794; stroke-width: 2; fill: none; }
+    .note { fill: #2b2f3a; stroke: #fac863; stroke-width: 1; }
+    .title { fill: #e5e9f0; font-weight: 700; font-size: 14px; }
+    .ts { fill: #fac863; font-size: 11px; font-weight: 700; }
+  </style>
+
+  <text x="410" y="24" text-anchor="middle" class="title">Failover sequence: master dies, VIP moves, traffic continues</text>
+
+  <!-- Lane heads -->
+  <rect x="40" y="48" width="120" height="36" rx="6" class="head" />
+  <text x="100" y="71" text-anchor="middle" class="label">client</text>
+
+  <rect x="200" y="48" width="120" height="36" rx="6" class="head-down" />
+  <text x="260" y="71" text-anchor="middle" class="label">lb-01 master</text>
+
+  <rect x="360" y="48" width="120" height="36" rx="6" class="head-warn" />
+  <text x="420" y="71" text-anchor="middle" class="label">lb-02 backup</text>
+
+  <rect x="520" y="48" width="120" height="36" rx="6" class="head" />
+  <text x="580" y="71" text-anchor="middle" class="label">postgres pri</text>
+
+  <rect x="680" y="48" width="120" height="36" rx="6" class="head" />
+  <text x="740" y="71" text-anchor="middle" class="label">postgres rep</text>
+
+  <!-- Lane lines -->
+  <line x1="100" y1="84" x2="100" y2="450" class="lane" />
+  <line x1="260" y1="84" x2="260" y2="450" class="lane" />
+  <line x1="420" y1="84" x2="420" y2="450" class="lane" />
+  <line x1="580" y1="84" x2="580" y2="450" class="lane" />
+  <line x1="740" y1="84" x2="740" y2="450" class="lane" />
+
+  <!-- t0: normal traffic -->
+  <text x="20" y="118" class="ts">t+0.0s</text>
+  <line x1="100" y1="115" x2="260" y2="115" class="msg" />
+  <polygon points="260,115 252,111 252,119" fill="#5fb3b3" />
+  <text x="180" y="110" text-anchor="middle" class="sub">POST /order</text>
+
+  <line x1="260" y1="135" x2="580" y2="135" class="msg" />
+  <polygon points="580,135 572,131 572,139" fill="#5fb3b3" />
+  <text x="420" y="130" text-anchor="middle" class="sub">write via app tier</text>
+
+  <line x1="580" y1="155" x2="740" y2="155" class="msg" stroke-dasharray="4 3" />
+  <polygon points="740,155 732,151 732,159" fill="#5fb3b3" />
+  <text x="660" y="150" text-anchor="middle" class="sub">WAL stream</text>
+
+  <!-- t1: master dies -->
+  <text x="20" y="195" class="ts">t+12.4s</text>
+  <line x1="240" y1="180" x2="280" y2="220" class="msg-fail" />
+  <line x1="280" y1="180" x2="240" y2="220" class="msg-fail" />
+  <text x="260" y="240" text-anchor="middle" class="sub" fill="#ec5f67">kernel panic</text>
+
+  <!-- t2: keepalived detects -->
+  <text x="20" y="282" class="ts">t+12.8s</text>
+  <line x1="260" y1="278" x2="420" y2="278" class="msg-fail" />
+  <text x="340" y="273" text-anchor="middle" class="sub">3× missed VRRP advert</text>
+
+  <!-- t3: backup promotes, gratuitous ARP -->
+  <text x="20" y="315" class="ts">t+13.0s</text>
+  <rect x="340" y="298" width="160" height="34" rx="4" class="note" />
+  <text x="420" y="319" text-anchor="middle" class="sub" fill="#fac863">lb-02 takes VIP, sends GARP</text>
+
+  <line x1="420" y1="345" x2="100" y2="345" class="msg-ok" />
+  <polygon points="100,345 108,341 108,349" fill="#99c794" />
+  <text x="260" y="340" text-anchor="middle" class="sub">ARP cache updated on switch</text>
+
+  <!-- t4: client retry succeeds via lb-02 -->
+  <text x="20" y="385" class="ts">t+13.3s</text>
+  <line x1="100" y1="380" x2="420" y2="380" class="msg-ok" />
+  <polygon points="420,380 412,376 412,384" fill="#99c794" />
+  <text x="260" y="375" text-anchor="middle" class="sub">retry: same VIP, new node</text>
+
+  <line x1="420" y1="405" x2="580" y2="405" class="msg-ok" />
+  <polygon points="580,405 572,401 572,409" fill="#99c794" />
+  <text x="500" y="400" text-anchor="middle" class="sub">write commits</text>
+
+  <!-- Footer note -->
+  <rect x="160" y="430" width="500" height="30" rx="4" class="note" />
+  <text x="410" y="450" text-anchor="middle" class="sub" fill="#fac863">Total observed downtime from client perspective: ~900ms (one TCP retry).</text>
+</svg>

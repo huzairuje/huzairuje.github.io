@@ -1,0 +1,113 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 460" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13">
+  <style>
+    .box { fill: #1f2937; stroke: #5fb3b3; stroke-width: 1.5; }
+    .box-active { fill: #114b4b; stroke: #5fb3b3; stroke-width: 2; }
+    .box-warn { fill: #1f2937; stroke: #fac863; stroke-width: 1.5; }
+    .label { fill: #e5e9f0; font-weight: 600; }
+    .sub { fill: #c0c5ce; font-size: 11px; }
+    .arrow { stroke: #c0c5ce; stroke-width: 1.5; fill: none; }
+    .arrow-active { stroke: #5fb3b3; stroke-width: 2; fill: none; }
+    .arrow-repl { stroke: #fac863; stroke-width: 1.5; fill: none; stroke-dasharray: 4 3; }
+    .arrow-fail { stroke: #ec5f67; stroke-width: 2; fill: none; stroke-dasharray: 4 3; }
+    .title { fill: #e5e9f0; font-weight: 700; font-size: 14px; }
+    .step { fill: #fac863; font-weight: 700; font-size: 12px; }
+    .wal { fill: #2b2f3a; stroke: #fac863; }
+  </style>
+
+  <text x="410" y="24" text-anchor="middle" class="title">Postgres streaming replication and replica promotion</text>
+
+  <!-- App tier -->
+  <rect x="40" y="60" width="160" height="60" rx="6" class="box" />
+  <text x="120" y="84" text-anchor="middle" class="label">app tier</text>
+  <text x="120" y="100" text-anchor="middle" class="sub">writes → primary</text>
+  <text x="120" y="114" text-anchor="middle" class="sub">reads → replica (with care)</text>
+
+  <!-- Primary -->
+  <rect x="280" y="60" width="220" height="120" rx="8" class="box-active" />
+  <text x="390" y="84" text-anchor="middle" class="label">postgres primary</text>
+  <text x="390" y="102" text-anchor="middle" class="sub">accepts read + write</text>
+  <text x="390" y="118" text-anchor="middle" class="sub">writes → WAL → fsync</text>
+  <text x="390" y="134" text-anchor="middle" class="sub">wal_level = replica</text>
+  <text x="390" y="150" text-anchor="middle" class="sub">max_wal_senders = 10</text>
+  <text x="390" y="166" text-anchor="middle" class="sub">synchronous_commit = on</text>
+
+  <!-- Replica -->
+  <rect x="580" y="60" width="220" height="120" rx="8" class="box-warn" />
+  <text x="690" y="84" text-anchor="middle" class="label">postgres replica</text>
+  <text x="690" y="102" text-anchor="middle" class="sub">hot_standby = on</text>
+  <text x="690" y="118" text-anchor="middle" class="sub">read-only queries</text>
+  <text x="690" y="134" text-anchor="middle" class="sub">replays WAL on receive</text>
+  <text x="690" y="150" text-anchor="middle" class="sub">primary_conninfo = ...</text>
+  <text x="690" y="166" text-anchor="middle" class="sub">replication slot reserved</text>
+
+  <!-- Arrows from app -->
+  <line x1="200" y1="84" x2="280" y2="100" class="arrow-active" />
+  <polygon points="280,100 272,98 274,92" fill="#5fb3b3" />
+  <text x="240" y="78" text-anchor="middle" class="sub">writes</text>
+
+  <line x1="200" y1="110" x2="580" y2="140" class="arrow" />
+  <polygon points="580,140 572,138 574,132" fill="#c0c5ce" />
+  <text x="390" y="134" text-anchor="middle" class="sub" fill="#c0c5ce" opacity="0">reads</text>
+
+  <!-- WAL stream -->
+  <path d="M 500 120 L 580 120" class="arrow-repl" />
+  <polygon points="580,120 572,116 572,124" fill="#fac863" />
+  <text x="540" y="112" text-anchor="middle" class="sub" fill="#fac863">WAL stream</text>
+
+  <!-- WAL boxes -->
+  <text x="40" y="220" class="step">WAL pipeline</text>
+  <rect x="40" y="232" width="100" height="36" rx="4" class="wal" />
+  <text x="90" y="255" text-anchor="middle" class="sub">commit</text>
+  <line x1="140" y1="250" x2="170" y2="250" class="arrow-active" />
+  <polygon points="170,250 162,246 162,254" fill="#5fb3b3" />
+
+  <rect x="170" y="232" width="100" height="36" rx="4" class="wal" />
+  <text x="220" y="255" text-anchor="middle" class="sub">WAL record</text>
+  <line x1="270" y1="250" x2="300" y2="250" class="arrow-active" />
+  <polygon points="300,250 292,246 292,254" fill="#5fb3b3" />
+
+  <rect x="300" y="232" width="100" height="36" rx="4" class="wal" />
+  <text x="350" y="255" text-anchor="middle" class="sub">fsync to disk</text>
+  <line x1="400" y1="250" x2="430" y2="250" class="arrow-repl" />
+  <polygon points="430,250 422,246 422,254" fill="#fac863" />
+
+  <rect x="430" y="232" width="120" height="36" rx="4" class="wal" />
+  <text x="490" y="255" text-anchor="middle" class="sub">walsender → net</text>
+  <line x1="550" y1="250" x2="580" y2="250" class="arrow-repl" />
+  <polygon points="580,250 572,246 572,254" fill="#fac863" />
+
+  <rect x="580" y="232" width="120" height="36" rx="4" class="wal" />
+  <text x="640" y="255" text-anchor="middle" class="sub">walreceiver</text>
+  <line x1="700" y1="250" x2="720" y2="250" class="arrow-active" />
+  <polygon points="720,250 712,246 712,254" fill="#5fb3b3" />
+
+  <rect x="720" y="232" width="80" height="36" rx="4" class="wal" />
+  <text x="760" y="255" text-anchor="middle" class="sub">replay</text>
+
+  <!-- Promotion path -->
+  <text x="40" y="310" class="step">When the primary dies</text>
+
+  <rect x="40" y="324" width="220" height="100" rx="6" class="box" stroke="#ec5f67" />
+  <text x="150" y="346" text-anchor="middle" class="label" fill="#ec5f67">primary down</text>
+  <text x="150" y="362" text-anchor="middle" class="sub">writes start failing</text>
+  <text x="150" y="378" text-anchor="middle" class="sub">app gets connection refused</text>
+  <text x="150" y="394" text-anchor="middle" class="sub">replica lag stops advancing</text>
+
+  <line x1="260" y1="374" x2="320" y2="374" class="arrow-fail" />
+  <polygon points="320,374 312,370 312,378" fill="#ec5f67" />
+
+  <rect x="320" y="324" width="220" height="100" rx="6" class="box-warn" />
+  <text x="430" y="346" text-anchor="middle" class="label" fill="#fac863">orchestrator decides</text>
+  <text x="430" y="362" text-anchor="middle" class="sub">patroni / repmgr / pg_auto_failover</text>
+  <text x="430" y="378" text-anchor="middle" class="sub">fences the dead primary</text>
+  <text x="430" y="394" text-anchor="middle" class="sub">picks replica with least lag</text>
+
+  <line x1="540" y1="374" x2="600" y2="374" class="arrow-active" />
+  <polygon points="600,374 592,370 592,378" fill="#5fb3b3" />
+
+  <rect x="600" y="324" width="200" height="100" rx="6" class="box-active" />
+  <text x="700" y="346" text-anchor="middle" class="label">replica promoted</text>
+  <text x="700" y="362" text-anchor="middle" class="sub">pg_promote() → new primary</text>
+  <text x="700" y="378" text-anchor="middle" class="sub">VIP / DNS / pgbouncer flips</text>
+  <text x="700" y="394" text-anchor="middle" class="sub">writes resume</text>
+</svg>
