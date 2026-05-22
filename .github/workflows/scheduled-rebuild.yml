@@ -7,16 +7,21 @@ name: Scheduled rebuild for future-dated posts
 #   date passes. This workflow is that trigger.
 #
 # What it does:
-#   Runs once a day at 00:10 Asia/Jakarta (17:10 UTC the previous day).
-#   Looks at filenames in _posts/ and finds any post whose date (the
-#   YYYY-MM-DD prefix) is today in Asia/Jakarta. If one exists, pushes an
+#   Posts use `date: YYYY-MM-DD 08:00:00 +0700`, so the rebuild has to fire
+#   *after* 08:00 Jakarta or `future: false` will still drop the post.
+#   Runs at 08:10 and 09:10 Asia/Jakarta (01:10 and 02:10 UTC). Two slots
+#   because GitHub Actions cron commonly slips 5–15 minutes; the second
+#   run is a safety net. Looks at filenames in _posts/ and finds any post
+#   whose date prefix is today in Asia/Jakarta. If one exists, pushes an
 #   empty commit so GitHub Pages rebuilds and the post goes live.
 #   Otherwise, exits without committing — no spam in the git log.
 
 on:
   schedule:
-    # 17:10 UTC == 00:10 Asia/Jakarta (UTC+7)
-    - cron: "10 17 * * *"
+    # 01:10 UTC == 08:10 Asia/Jakarta — just after 08:00 +0700 posts
+    - cron: "10 1 * * *"
+    # 02:10 UTC == 09:10 Asia/Jakarta — safety net for cron slippage
+    - cron: "10 2 * * *"
   workflow_dispatch:
     inputs:
       force:
