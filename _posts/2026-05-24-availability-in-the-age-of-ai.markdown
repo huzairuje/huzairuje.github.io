@@ -29,6 +29,8 @@ I now treat any LLM call the same way I'd treat a [third-party API with partial-
 
 Here's the taxonomy I keep in my head when reviewing a feature that calls a model.
 
+![LLM failure modes split across the protocol layer and the semantic layer](/assets/llm-failure-modes.svg)
+
 ### Hard failures (loud, easy)
 
 These are the ones SREs already know how to handle.
@@ -111,6 +113,8 @@ For non-deterministic bugs, run the same call N times. If 18 out of 20 are corre
 ### Validate output schemas at the boundary
 
 I treat the model output the same way I treat input from a browser. Untrusted, must be validated, must have a fallback when validation fails.
+
+![Validate at the boundary, fall back to a deterministic template when the schema is wrong](/assets/llm-validate-fallback.svg)
 
 ```go
 type OrderSummary struct {

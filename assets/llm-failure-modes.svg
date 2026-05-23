@@ -1,0 +1,107 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 460" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13">
+  <style>
+    .box { fill: #1f2937; stroke: #5fb3b3; stroke-width: 1.5; }
+    .box-warn { fill: #1f2937; stroke: #fac863; stroke-width: 1.5; }
+    .box-down { fill: #1f2937; stroke: #ec5f67; stroke-width: 1.5; stroke-dasharray: 5 4; }
+    .box-active { fill: #114b4b; stroke: #5fb3b3; stroke-width: 2; }
+    .label { fill: #e5e9f0; font-weight: 600; }
+    .sub { fill: #c0c5ce; font-size: 11px; }
+    .arrow { stroke: #c0c5ce; stroke-width: 1.5; fill: none; }
+    .arrow-active { stroke: #5fb3b3; stroke-width: 2; fill: none; }
+    .pill { fill: #2b2f3a; stroke: #5fb3b3; }
+    .pill-text { fill: #e5e9f0; font-weight: 700; font-size: 12px; }
+    .title { fill: #e5e9f0; font-weight: 700; font-size: 14px; }
+    .lane { fill: #e5e9f0; font-weight: 700; font-size: 12px; }
+    .quiet { fill: #c0c5ce; font-style: italic; font-size: 11px; }
+  </style>
+
+  <!-- Title -->
+  <text x="410" y="24" text-anchor="middle" class="title">LLM failure modes: protocol layer vs semantic layer</text>
+
+  <!-- Request -->
+  <rect x="20" y="60" width="120" height="44" rx="6" class="box" />
+  <text x="80" y="80" text-anchor="middle" class="label">app request</text>
+  <text x="80" y="96" text-anchor="middle" class="sub">prompt + input</text>
+
+  <!-- Provider call -->
+  <rect x="180" y="60" width="160" height="44" rx="6" class="box-active" />
+  <text x="260" y="80" text-anchor="middle" class="label">LLM provider call</text>
+  <text x="260" y="96" text-anchor="middle" class="sub">HTTPS, tokens, model</text>
+
+  <path class="arrow-active" d="M140 82 L180 82" marker-end="url(#ah)" />
+
+  <!-- HTTP outcome -->
+  <rect x="380" y="60" width="160" height="44" rx="6" class="box" />
+  <text x="460" y="80" text-anchor="middle" class="label">HTTP 200 + JSON</text>
+  <text x="460" y="96" text-anchor="middle" class="sub">protocol layer OK</text>
+
+  <path class="arrow-active" d="M340 82 L380 82" marker-end="url(#ah)" />
+
+  <!-- Consumer -->
+  <rect x="580" y="60" width="220" height="44" rx="6" class="box" />
+  <text x="690" y="80" text-anchor="middle" class="label">app consumes response</text>
+  <text x="690" y="96" text-anchor="middle" class="sub">parse, validate, render</text>
+
+  <path class="arrow-active" d="M540 82 L580 82" marker-end="url(#ah)" />
+
+  <!-- Lanes -->
+  <line x1="20" y1="140" x2="800" y2="140" class="arrow" />
+  <text x="20" y="158" class="lane">PROTOCOL LAYER (loud, easy)</text>
+  <text x="20" y="174" class="quiet">SREs already know this playbook: retry, backoff, circuit-break, alert.</text>
+
+  <!-- Protocol failures -->
+  <rect x="20" y="190" width="180" height="44" rx="6" class="box-down" />
+  <text x="110" y="210" text-anchor="middle" class="label">5xx / timeout</text>
+  <text x="110" y="226" text-anchor="middle" class="sub">retry with backoff</text>
+
+  <rect x="220" y="190" width="180" height="44" rx="6" class="box-warn" />
+  <text x="310" y="210" text-anchor="middle" class="label">429 rate limit</text>
+  <text x="310" y="226" text-anchor="middle" class="sub">queue, shed, defer</text>
+
+  <rect x="420" y="190" width="180" height="44" rx="6" class="box-down" />
+  <text x="510" y="210" text-anchor="middle" class="label">401 / quota</text>
+  <text x="510" y="226" text-anchor="middle" class="sub">page on-call</text>
+
+  <rect x="620" y="190" width="180" height="44" rx="6" class="box-warn" />
+  <text x="710" y="210" text-anchor="middle" class="label">connection reset</text>
+  <text x="710" y="226" text-anchor="middle" class="sub">circuit-break</text>
+
+  <!-- Semantic lane -->
+  <line x1="20" y1="270" x2="800" y2="270" class="arrow" />
+  <text x="20" y="288" class="lane">SEMANTIC LAYER (quiet, hard)</text>
+  <text x="20" y="304" class="quiet">Status page is green. Customer sees the wrong answer. Nothing alerts.</text>
+
+  <rect x="20" y="320" width="180" height="44" rx="6" class="box-warn" />
+  <text x="110" y="340" text-anchor="middle" class="label">schema drift</text>
+  <text x="110" y="356" text-anchor="middle" class="sub">JSON in markdown fence</text>
+
+  <rect x="220" y="320" width="180" height="44" rx="6" class="box-warn" />
+  <text x="310" y="340" text-anchor="middle" class="label">truncation</text>
+  <text x="310" y="356" text-anchor="middle" class="sub">max_tokens hit mid-key</text>
+
+  <rect x="420" y="320" width="180" height="44" rx="6" class="box-down" />
+  <text x="510" y="340" text-anchor="middle" class="label">confident wrongness</text>
+  <text x="510" y="356" text-anchor="middle" class="sub">invented SKU / ID</text>
+
+  <rect x="620" y="320" width="180" height="44" rx="6" class="box-down" />
+  <text x="710" y="340" text-anchor="middle" class="label">prompt injection</text>
+  <text x="710" y="356" text-anchor="middle" class="sub">user input as instruction</text>
+
+  <rect x="20" y="380" width="280" height="44" rx="6" class="box-warn" />
+  <text x="160" y="400" text-anchor="middle" class="label">silent model deprecation</text>
+  <text x="160" y="416" text-anchor="middle" class="sub">vendor rolls version, behavior shifts</text>
+
+  <rect x="320" y="380" width="220" height="44" rx="6" class="box-warn" />
+  <text x="430" y="400" text-anchor="middle" class="label">latency tail (P99 cliff)</text>
+  <text x="430" y="416" text-anchor="middle" class="sub">P50 fine, P99 = 45s</text>
+
+  <rect x="560" y="380" width="240" height="44" rx="6" class="box-down" />
+  <text x="680" y="400" text-anchor="middle" class="label">stale tool / cached state</text>
+  <text x="680" y="416" text-anchor="middle" class="sub">3-min-old snapshot</text>
+
+  <defs>
+    <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#5fb3b3" />
+    </marker>
+  </defs>
+</svg>

@@ -1,0 +1,100 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 480" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13">
+  <style>
+    .box { fill: #1f2937; stroke: #5fb3b3; stroke-width: 1.5; }
+    .box-warn { fill: #1f2937; stroke: #fac863; stroke-width: 1.5; }
+    .box-down { fill: #1f2937; stroke: #ec5f67; stroke-width: 1.5; stroke-dasharray: 5 4; }
+    .box-active { fill: #114b4b; stroke: #5fb3b3; stroke-width: 2; }
+    .box-fallback { fill: #2b2f3a; stroke: #fac863; stroke-width: 1.5; }
+    .label { fill: #e5e9f0; font-weight: 600; }
+    .sub { fill: #c0c5ce; font-size: 11px; }
+    .arrow { stroke: #c0c5ce; stroke-width: 1.5; fill: none; }
+    .arrow-ok { stroke: #5fb3b3; stroke-width: 2; fill: none; }
+    .arrow-fail { stroke: #ec5f67; stroke-width: 2; fill: none; stroke-dasharray: 5 4; }
+    .arrow-warn { stroke: #fac863; stroke-width: 2; fill: none; }
+    .title { fill: #e5e9f0; font-weight: 700; font-size: 14px; }
+    .edge-label { fill: #c0c5ce; font-size: 11px; }
+    .edge-ok { fill: #5fb3b3; font-size: 11px; font-weight: 700; }
+    .edge-fail { fill: #ec5f67; font-size: 11px; font-weight: 700; }
+  </style>
+
+  <!-- Title -->
+  <text x="410" y="24" text-anchor="middle" class="title">Validate at the boundary, fall back deterministically</text>
+
+  <!-- Request -->
+  <rect x="40" y="60" width="160" height="50" rx="6" class="box" />
+  <text x="120" y="82" text-anchor="middle" class="label">user request</text>
+  <text x="120" y="98" text-anchor="middle" class="sub">order summary, etc.</text>
+
+  <!-- Build prompt -->
+  <rect x="240" y="60" width="180" height="50" rx="6" class="box" />
+  <text x="330" y="82" text-anchor="middle" class="label">build prompt</text>
+  <text x="330" y="98" text-anchor="middle" class="sub">template_id + variables</text>
+
+  <path class="arrow-ok" d="M200 85 L240 85" marker-end="url(#ah)" />
+
+  <!-- LLM call -->
+  <rect x="460" y="60" width="180" height="50" rx="6" class="box-active" />
+  <text x="550" y="82" text-anchor="middle" class="label">LLM provider</text>
+  <text x="550" y="98" text-anchor="middle" class="sub">timeout, retry budget</text>
+
+  <path class="arrow-ok" d="M420 85 L460 85" marker-end="url(#ah)" />
+
+  <!-- Log raw -->
+  <rect x="680" y="60" width="120" height="50" rx="6" class="box-warn" />
+  <text x="740" y="82" text-anchor="middle" class="label">log raw</text>
+  <text x="740" y="98" text-anchor="middle" class="sub">prompt + output</text>
+
+  <path class="arrow-warn" d="M640 85 L680 85" marker-end="url(#ah-warn)" />
+
+  <!-- Schema validate decision -->
+  <polygon points="460,170 640,170 600,230 500,230" class="box" />
+  <text x="550" y="195" text-anchor="middle" class="label">schema valid?</text>
+  <text x="550" y="212" text-anchor="middle" class="sub">json + struct rules</text>
+
+  <path class="arrow-ok" d="M550 110 L550 170" marker-end="url(#ah)" />
+
+  <!-- Render -->
+  <rect x="60" y="260" width="200" height="50" rx="6" class="box-active" />
+  <text x="160" y="282" text-anchor="middle" class="label">render to user</text>
+  <text x="160" y="298" text-anchor="middle" class="sub">success path</text>
+
+  <!-- Fallback -->
+  <rect x="560" y="260" width="220" height="50" rx="6" class="box-fallback" />
+  <text x="670" y="282" text-anchor="middle" class="label">deterministic fallback</text>
+  <text x="670" y="298" text-anchor="middle" class="sub">hand-written template</text>
+
+  <!-- yes branch -->
+  <path class="arrow-ok" d="M500 230 L500 260 Q500 285 260 285" marker-end="url(#ah)" />
+  <text x="380" y="255" text-anchor="middle" class="edge-ok">yes — 99.7%</text>
+
+  <!-- no branch -->
+  <path class="arrow-fail" d="M600 230 L600 260 Q600 285 670 285 Q670 285 670 260" marker-end="url(#ah-fail)" />
+  <text x="660" y="250" text-anchor="middle" class="edge-fail">no — 0.3%</text>
+
+  <!-- Counter / metric -->
+  <rect x="560" y="350" width="220" height="44" rx="6" class="box-warn" />
+  <text x="670" y="370" text-anchor="middle" class="label">metric: schema_error++</text>
+  <text x="670" y="386" text-anchor="middle" class="sub">alert on rate, not count</text>
+
+  <path class="arrow-warn" d="M670 310 L670 350" marker-end="url(#ah-warn)" />
+
+  <!-- Eval harness sidebar -->
+  <rect x="40" y="350" width="380" height="100" rx="6" class="box" />
+  <text x="230" y="372" text-anchor="middle" class="label">offline: eval harness</text>
+  <text x="230" y="392" text-anchor="middle" class="sub">fixed inputs × current prompt → score</text>
+  <text x="230" y="408" text-anchor="middle" class="sub">prompt change becomes a reviewable diff</text>
+  <text x="230" y="424" text-anchor="middle" class="sub">runs in CI before merge, not after deploy</text>
+  <text x="230" y="440" text-anchor="middle" class="sub">catches the worst regressions early</text>
+
+  <defs>
+    <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#5fb3b3" />
+    </marker>
+    <marker id="ah-fail" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#ec5f67" />
+    </marker>
+    <marker id="ah-warn" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#fac863" />
+    </marker>
+  </defs>
+</svg>
