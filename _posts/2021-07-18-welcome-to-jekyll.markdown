@@ -3,6 +3,8 @@ layout: post
 title: "Welcome to My Bugs and Solutions on Real-World Backend Engineering"
 date: 2021-07-18 10:57:18 +0700
 categories: backend introduction
+tags: [backend, golang, distributed-systems, debugging]
+description: "An introduction to Muhammad Huzair's practical writing about Go backends, distributed systems, databases, reliability, and production debugging."
 ---
 
 Hey there! I'm **Muhammad Huzair** — a backend engineer who's been in the trenches of production systems, chasing bugs at 3 AM, and rebuilding things that "shouldn't have broken in the first place."

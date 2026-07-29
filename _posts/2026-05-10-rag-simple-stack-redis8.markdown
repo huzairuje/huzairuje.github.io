@@ -3,6 +3,8 @@ layout: post
 title:  "Building a Simple RAG Stack with Redis 8 Vector Sets, Go, and Python"
 date:   2026-05-10 21:35:00 +0700
 categories: architecture ai redis golang python
+tags: [rag, redis, golang, python, vector-search, sse]
+description: "Build a compact RAG stack with Redis 8 Vector Sets, a Go API gateway, Python FastAPI embeddings, SSE streaming, and local Ollama support."
 ---
 
 Retrieval-Augmented Generation (RAG) has become the standard architectural pattern for building intelligent applications that can chat over private data. While many RAG implementations rely on complex arrays of managed services, I recently put together a "Simple RAG Stack" that leverages the latest features in **Redis 8** to handle multiple infrastructure roles simultaneously.

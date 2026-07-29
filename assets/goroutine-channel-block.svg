@@ -1,0 +1,94 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 360" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13">
+  <style>
+    .box        { fill: #1f2937; stroke: #5fb3b3; stroke-width: 1.5; }
+    .box-down   { fill: #1f2937; stroke: #ec5f67; stroke-width: 1.5; stroke-dasharray: 5 4; }
+    .box-active { fill: #114b4b; stroke: #5fb3b3; stroke-width: 2; }
+    .box-leak   { fill: #3b1f1f; stroke: #ec5f67; stroke-width: 2; }
+    .label      { fill: #e5e9f0; font-weight: 600; }
+    .sub        { fill: #c0c5ce; font-size: 11px; }
+    .arrow-act  { stroke: #5fb3b3; stroke-width: 2; fill: none; }
+    .arrow-red  { stroke: #ec5f67; stroke-width: 2; fill: none; }
+    .arrow-gray { stroke: #c0c5ce; stroke-width: 1.5; fill: none; }
+    .title      { fill: #e5e9f0; font-weight: 700; font-size: 14px; }
+    .ch         { fill: #2b2f3a; stroke: #fac863; stroke-width: 1.5; }
+  </style>
+  <defs>
+    <marker id="ah-act"  markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#5fb3b3"/></marker>
+    <marker id="ah-red"  markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#ec5f67"/></marker>
+    <marker id="ah-gray" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#c0c5ce"/></marker>
+  </defs>
+
+  <text x="410" y="26" text-anchor="middle" class="title">Channel Block — Sender Goroutine Stuck With No Receiver</text>
+  <line x1="410" y1="40" x2="410" y2="352" stroke="#374151" stroke-width="1" stroke-dasharray="6 4"/>
+
+  <!-- ── LEFT ── -->
+  <text x="205" y="56" text-anchor="middle" fill="#ec5f67" font-weight="700" font-size="13">❌  No escape hatch</text>
+
+  <rect x="20" y="76" width="140" height="40" rx="6" class="box-active"/>
+  <text x="90" y="96"  text-anchor="middle" class="label" font-size="12">sender goroutine</text>
+  <text x="90" y="110" text-anchor="middle" class="sub">for _, e := range events</text>
+
+  <rect x="190" y="84" width="80" height="24" rx="4" class="ch"/>
+  <text x="230" y="101" text-anchor="middle" fill="#fac863" font-size="11" font-weight="600">ch (unbuf)</text>
+  <path d="M160 96 L188 96" class="arrow-gray" marker-end="url(#ah-gray)"/>
+
+  <rect x="300" y="76" width="80" height="40" rx="6" class="box-active"/>
+  <text x="340" y="96"  text-anchor="middle" class="label" font-size="12">receiver</text>
+  <text x="340" y="110" text-anchor="middle" class="sub">handle(e)</text>
+  <path d="M270 96 L298 96" class="arrow-gray" marker-end="url(#ah-gray)"/>
+
+  <!-- Receiver exits on err -->
+  <path d="M340 116 L340 148" class="arrow-red" marker-end="url(#ah-red)"/>
+  <rect x="280" y="150" width="120" height="32" rx="6" class="box-down"/>
+  <text x="340" y="171" text-anchor="middle" fill="#ec5f67" font-size="12" font-weight="600">err → exits ❌</text>
+
+  <!-- Sender blocked -->
+  <path d="M230 108 L230 148" class="arrow-red" marker-end="url(#ah-red)"/>
+  <rect x="160" y="150" width="140" height="40" rx="6" class="box-leak"/>
+  <text x="230" y="170" text-anchor="middle" fill="#ec5f67" font-weight="700" font-size="12">BLOCKED</text>
+  <text x="230" y="184" text-anchor="middle" fill="#ec5f67" font-size="11">ch &lt;- e waits forever</text>
+
+  <text x="205" y="216" text-anchor="middle" fill="#ec5f67" font-size="11">nobody reading the channel</text>
+  <text x="205" y="232" text-anchor="middle" class="sub">sender goroutine leaks</text>
+  <text x="205" y="248" text-anchor="middle" class="sub">holds all captured variables</text>
+
+  <rect x="20" y="276" width="372" height="62" rx="6" fill="#1a1020" stroke="#ec5f67" stroke-width="1"/>
+  <text x="206" y="296" text-anchor="middle" fill="#ec5f67" font-size="11" font-weight="600">ch &lt;- e  // blocks if receiver is gone</text>
+  <text x="206" y="312" text-anchor="middle" class="sub">no way out — goroutine stuck forever</text>
+  <text x="206" y="328" text-anchor="middle" class="sub">repeats for every send in the loop</text>
+
+  <!-- ── RIGHT ── -->
+  <text x="615" y="56" text-anchor="middle" fill="#5fb3b3" font-weight="700" font-size="13">✅  select + ctx.Done() escape</text>
+
+  <rect x="420" y="76" width="140" height="40" rx="6" class="box-active"/>
+  <text x="490" y="96"  text-anchor="middle" class="label" font-size="12">sender goroutine</text>
+  <text x="490" y="110" text-anchor="middle" class="sub">select { ... }</text>
+
+  <rect x="590" y="84" width="80" height="24" rx="4" class="ch"/>
+  <text x="630" y="101" text-anchor="middle" fill="#fac863" font-size="11" font-weight="600">ch (buf)</text>
+  <path d="M560 96 L588 96" class="arrow-act" marker-end="url(#ah-act)"/>
+
+  <rect x="700" y="76" width="100" height="40" rx="6" class="box-active"/>
+  <text x="750" y="96"  text-anchor="middle" class="label" font-size="12">receiver</text>
+  <text x="750" y="110" text-anchor="middle" class="sub">exits on err</text>
+  <path d="M670 96 L698 96" class="arrow-act" marker-end="url(#ah-act)"/>
+
+  <!-- ctx fires -->
+  <rect x="420" y="150" width="140" height="32" rx="6" class="box-active"/>
+  <text x="490" y="171" text-anchor="middle" fill="#5fb3b3" font-size="12" font-weight="600">ctx.Done() fires ✅</text>
+  <path d="M490 116 L490 148" class="arrow-act" marker-end="url(#ah-act)"/>
+
+  <!-- Sender exits cleanly -->
+  <path d="M490 182 L490 214" class="arrow-act" marker-end="url(#ah-act)"/>
+  <rect x="420" y="216" width="140" height="32" rx="6" class="box-active"/>
+  <text x="490" y="237" text-anchor="middle" fill="#5fb3b3" font-size="12" font-weight="600">sender exits ✅</text>
+
+  <text x="610" y="200" text-anchor="middle" fill="#5fb3b3" font-size="11">goroutine exits cleanly</text>
+  <text x="610" y="216" text-anchor="middle" class="sub">memory freed by GC</text>
+  <text x="610" y="232" text-anchor="middle" class="sub">no leak even if receiver is gone</text>
+
+  <rect x="420" y="276" width="380" height="62" rx="6" fill="#0d1f1f" stroke="#5fb3b3" stroke-width="1"/>
+  <text x="610" y="296" text-anchor="middle" fill="#5fb3b3" font-size="11" font-weight="600">select { case ch &lt;- e: ... case &lt;-ctx.Done(): return }</text>
+  <text x="610" y="312" text-anchor="middle" class="sub">two paths out: send succeeds OR context cancels</text>
+  <text x="610" y="328" text-anchor="middle" class="sub">never blocks indefinitely on either</text>
+</svg>

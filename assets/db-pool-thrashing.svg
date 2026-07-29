@@ -1,0 +1,86 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 380" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13">
+  <style>
+    .label     { fill: #e5e9f0; font-weight: 600; }
+    .sub       { fill: #c0c5ce; font-size: 11px; }
+    .title     { fill: #e5e9f0; font-weight: 700; font-size: 14px; }
+    .bar-full  { fill: #114b4b; stroke: #5fb3b3; stroke-width: 1; }
+    .bar-idle  { fill: #2b2f3a; stroke: #6b7280; stroke-width: 1; }
+    .bar-new   { fill: #3b2a1f; stroke: #fac863; stroke-width: 1; }
+    .bar-small { fill: #2b2f3a; stroke: #6b7280; stroke-width: 1; }
+  </style>
+
+  <text x="410" y="26" text-anchor="middle" class="title">SetMaxIdleConns Too Low — Pool Thrashing vs Stable</text>
+  <line x1="410" y1="40" x2="410" y2="372" stroke="#374151" stroke-width="1" stroke-dasharray="6 4"/>
+
+  <!-- LEFT: Low -->
+  <text x="205" y="56" text-anchor="middle" fill="#fac863" font-weight="700" font-size="13">⚠️  MaxIdleConns = 2 (too low)</text>
+  <text x="44"  y="78" class="sub">time</text>
+  <text x="100" y="78" class="sub">traffic</text>
+  <text x="170" y="78" class="sub">pool state</text>
+
+  <text x="44" y="102" class="sub">t=0s</text>
+  <text x="100" y="102" fill="#ec5f67" font-size="11" font-weight="600">spike</text>
+  <rect x="160" y="88" width="200" height="20" rx="3" class="bar-full"/>
+  <text x="368" y="102" fill="#5fb3b3" font-size="11">25 open</text>
+
+  <text x="44" y="142" class="sub">t=1s</text>
+  <text x="100" y="142" fill="#5fb3b3" font-size="11">quiet</text>
+  <rect x="160" y="128" width="16" height="20" rx="3" class="bar-small"/>
+  <text x="184" y="142" fill="#ec5f67" font-size="11">2 idle — 23 closed ❌</text>
+
+  <text x="44" y="182" class="sub">t=2s</text>
+  <text x="100" y="182" fill="#ec5f67" font-size="11" font-weight="600">spike</text>
+  <rect x="160" y="168" width="200" height="20" rx="3" class="bar-new"/>
+  <text x="368" y="182" fill="#fac863" font-size="11">23 new handshakes ← slow</text>
+
+  <text x="44" y="222" class="sub">t=3s</text>
+  <text x="100" y="222" fill="#5fb3b3" font-size="11">quiet</text>
+  <rect x="160" y="208" width="16" height="20" rx="3" class="bar-small"/>
+  <text x="184" y="222" fill="#ec5f67" font-size="11">2 idle — 23 closed ❌</text>
+
+  <text x="44" y="262" class="sub">t=4s</text>
+  <text x="100" y="262" fill="#ec5f67" font-size="11" font-weight="600">spike</text>
+  <rect x="160" y="248" width="200" height="20" rx="3" class="bar-new"/>
+  <text x="368" y="262" fill="#fac863" font-size="11">23 new handshakes ← slow</text>
+
+  <rect x="20" y="292" width="372" height="60" rx="6" fill="#1a1020" stroke="#fac863" stroke-width="1"/>
+  <text x="206" y="312" text-anchor="middle" fill="#fac863" font-size="11" font-weight="600">pool thrashes on every burst</text>
+  <text x="206" y="328" text-anchor="middle" class="sub">TCP handshake + TLS + DB auth on each spike</text>
+  <text x="206" y="344" text-anchor="middle" class="sub">latency spikes + risk of exhaustion during reconnect</text>
+
+  <!-- RIGHT: High -->
+  <text x="615" y="56" text-anchor="middle" fill="#5fb3b3" font-weight="700" font-size="13">✅  MaxIdleConns = 25 (matches MaxOpenConns)</text>
+  <text x="424" y="78" class="sub">time</text>
+  <text x="480" y="78" class="sub">traffic</text>
+  <text x="550" y="78" class="sub">pool state</text>
+
+  <text x="424" y="102" class="sub">t=0s</text>
+  <text x="480" y="102" fill="#ec5f67" font-size="11" font-weight="600">spike</text>
+  <rect x="540" y="88" width="200" height="20" rx="3" class="bar-full"/>
+  <text x="748" y="102" fill="#5fb3b3" font-size="11">25 open</text>
+
+  <text x="424" y="142" class="sub">t=1s</text>
+  <text x="480" y="142" fill="#5fb3b3" font-size="11">quiet</text>
+  <rect x="540" y="128" width="200" height="20" rx="3" class="bar-idle"/>
+  <text x="748" y="142" fill="#5fb3b3" font-size="11">25 idle — warm ✅</text>
+
+  <text x="424" y="182" class="sub">t=2s</text>
+  <text x="480" y="182" fill="#ec5f67" font-size="11" font-weight="600">spike</text>
+  <rect x="540" y="168" width="200" height="20" rx="3" class="bar-full"/>
+  <text x="748" y="182" fill="#5fb3b3" font-size="11">reused instantly ✅</text>
+
+  <text x="424" y="222" class="sub">t=3s</text>
+  <text x="480" y="222" fill="#5fb3b3" font-size="11">quiet</text>
+  <rect x="540" y="208" width="200" height="20" rx="3" class="bar-idle"/>
+  <text x="748" y="222" fill="#5fb3b3" font-size="11">25 idle — warm ✅</text>
+
+  <text x="424" y="262" class="sub">t=4s</text>
+  <text x="480" y="262" fill="#ec5f67" font-size="11" font-weight="600">spike</text>
+  <rect x="540" y="248" width="200" height="20" rx="3" class="bar-full"/>
+  <text x="748" y="262" fill="#5fb3b3" font-size="11">reused instantly ✅</text>
+
+  <rect x="420" y="292" width="380" height="60" rx="6" fill="#0d1f1f" stroke="#5fb3b3" stroke-width="1"/>
+  <text x="610" y="312" text-anchor="middle" fill="#5fb3b3" font-size="11" font-weight="600">pool stays warm across bursts</text>
+  <text x="610" y="328" text-anchor="middle" class="sub">no handshake overhead on each spike</text>
+  <text x="610" y="344" text-anchor="middle" class="sub">consistent low latency under bursty traffic</text>
+</svg>

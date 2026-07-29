@@ -4,6 +4,7 @@ title: "Streaming AI Responses via gRPC + SSE: Python FastAPI → Go Backend →
 date: 2026-05-04 02:00:00 +0700
 categories: [Backend, AI]
 tags: [grpc, sse, python, go, fastapi]
+description: "Stream AI output from Python to a Go backend with gRPC server streaming, then deliver tokens to browsers using Server-Sent Events."
 ---
 
 When building an AI-powered feature, you often end up with a Python service running the model (because the ML ecosystem lives in Python) and a Go backend serving your API. The challenge: how do you stream AI-generated tokens all the way from Python to the browser in real time?

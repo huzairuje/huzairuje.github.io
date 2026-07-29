@@ -207,7 +207,7 @@ groups:
         labels:
           severity: warning
         annotations:
-          summary: "P99 latency above 1s SLO for {{ $labels.path }}"
+{% raw %}          summary: "P99 latency above 1s SLO for {{ $labels.path }}"{% endraw %}
 ```
 
 ## The Golden Signals

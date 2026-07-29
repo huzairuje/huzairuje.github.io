@@ -4,11 +4,12 @@
 # 'bundle exec jekyll serve'. Restart the server after editing this file.
 
 # ─── Site Identity ───────────────────────────────────────────────────────────
-title: huzairuje
+title: Huzairuje
+tagline: Go Backend Engineering
 email: muhammadhuzair@gmail.com
 description: >-
-  huzairuje blog posts — real-world backend engineering with Go, distributed
-  systems, microservices, databases, and production war stories.
+  Production-focused Go backend engineering: distributed systems, databases,
+  reliability, performance, and real-world debugging.
 url: "https://huzairuje.github.io"
 baseurl: ""
 lang: en
@@ -54,11 +55,13 @@ minima:
 defaults:
   - scope:
       path: ""
+    values:
+      image: /assets/og-default.png
+  - scope:
+      path: ""
       type: posts
     values:
       layout: post
-      author: Muhammad Huzair
-      image: /assets/og-default.png
 
 # ─── Exclude from build ──────────────────────────────────────────────────────
 exclude:

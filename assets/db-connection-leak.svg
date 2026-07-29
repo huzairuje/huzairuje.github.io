@@ -1,0 +1,113 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 400" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13">
+  <style>
+    .box        { fill: #1f2937; stroke: #5fb3b3; stroke-width: 1.5; }
+    .box-down   { fill: #1f2937; stroke: #ec5f67; stroke-width: 1.5; stroke-dasharray: 5 4; }
+    .box-active { fill: #114b4b; stroke: #5fb3b3; stroke-width: 2; }
+    .slot-act   { fill: #114b4b; stroke: #5fb3b3; stroke-width: 1; }
+    .slot-idle  { fill: #2b2f3a; stroke: #6b7280; stroke-width: 1; }
+    .slot-leak  { fill: #3b1f1f; stroke: #ec5f67; stroke-width: 1.5; }
+    .label      { fill: #e5e9f0; font-weight: 600; }
+    .sub        { fill: #c0c5ce; font-size: 11px; }
+    .arrow-act  { stroke: #5fb3b3; stroke-width: 2; fill: none; }
+    .arrow-red  { stroke: #ec5f67; stroke-width: 1.5; fill: none; stroke-dasharray: 4 3; }
+    .title      { fill: #e5e9f0; font-weight: 700; font-size: 14px; }
+  </style>
+  <defs>
+    <marker id="ah-act" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#5fb3b3"/></marker>
+    <marker id="ah-red" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L8,3 z" fill="#ec5f67"/></marker>
+  </defs>
+
+  <!-- Title -->
+  <text x="410" y="26" text-anchor="middle" class="title">Connection Leak — rows.Close() Missing vs Present</text>
+
+  <!-- Divider -->
+  <line x1="410" y1="40" x2="410" y2="392" stroke="#374151" stroke-width="1" stroke-dasharray="6 4"/>
+
+  <!-- ── LEFT: Without rows.Close() ── -->
+  <text x="205" y="56" text-anchor="middle" fill="#ec5f67" font-weight="700" font-size="13">❌  Without rows.Close()</text>
+
+  <text x="44"  y="90"  class="sub">Request 1</text>
+  <path d="M104 86 L162 86"   class="arrow-red" marker-end="url(#ah-red)"/>
+  <text x="44"  y="116" class="sub">Request 2</text>
+  <path d="M104 112 L162 112" class="arrow-red" marker-end="url(#ah-red)"/>
+  <text x="44"  y="142" class="sub">Request 3</text>
+  <path d="M104 138 L162 138" class="arrow-red" marker-end="url(#ah-red)"/>
+  <text x="44"  y="168" class="sub">Request 4</text>
+  <path d="M104 164 L162 164" class="arrow-red" marker-end="url(#ah-red)"/>
+  <text x="44"  y="194" class="sub">Request 5</text>
+  <path d="M104 190 L162 190" class="arrow-red" marker-end="url(#ah-red)"/>
+
+  <rect x="164" y="74"  width="110" height="24" rx="4" class="slot-leak"/>
+  <text x="219" y="91"  text-anchor="middle" fill="#ec5f67" font-size="11" font-weight="600">C1 — STUCK</text>
+  <rect x="164" y="100" width="110" height="24" rx="4" class="slot-leak"/>
+  <text x="219" y="117" text-anchor="middle" fill="#ec5f67" font-size="11" font-weight="600">C2 — STUCK</text>
+  <rect x="164" y="126" width="110" height="24" rx="4" class="slot-leak"/>
+  <text x="219" y="143" text-anchor="middle" fill="#ec5f67" font-size="11" font-weight="600">C3 — STUCK</text>
+  <rect x="164" y="152" width="110" height="24" rx="4" class="slot-leak"/>
+  <text x="219" y="169" text-anchor="middle" fill="#ec5f67" font-size="11" font-weight="600">C4 — STUCK</text>
+  <rect x="164" y="178" width="110" height="24" rx="4" class="slot-leak"/>
+  <text x="219" y="195" text-anchor="middle" fill="#ec5f67" font-size="11" font-weight="600">C5 — STUCK</text>
+
+  <text x="284" y="91"  fill="#ec5f67" font-size="13" font-weight="700">✕</text>
+  <text x="284" y="117" fill="#ec5f67" font-size="13" font-weight="700">✕</text>
+  <text x="284" y="143" fill="#ec5f67" font-size="13" font-weight="700">✕</text>
+  <text x="284" y="169" fill="#ec5f67" font-size="13" font-weight="700">✕</text>
+  <text x="284" y="195" fill="#ec5f67" font-size="13" font-weight="700">✕</text>
+  <text x="300" y="91"  class="sub">never returned</text>
+  <text x="300" y="117" class="sub">never returned</text>
+  <text x="300" y="143" class="sub">never returned</text>
+  <text x="300" y="169" class="sub">never returned</text>
+  <text x="300" y="195" class="sub">never returned</text>
+
+  <!-- Request 6 blocked -->
+  <text x="44" y="240" class="sub">Request 6</text>
+  <path d="M104 236 L162 236" class="arrow-red" marker-end="url(#ah-red)"/>
+  <rect x="164" y="224" width="190" height="28" rx="4" class="box-down"/>
+  <text x="259" y="243" text-anchor="middle" fill="#ec5f67" font-weight="600" font-size="12">NO CONNECTION ❌</text>
+
+  <text x="205" y="288" text-anchor="middle" class="sub">pool exhausted — WaitCount climbs</text>
+  <text x="205" y="304" text-anchor="middle" fill="#ec5f67" font-size="11">users see: context deadline exceeded</text>
+
+  <rect x="44" y="328" width="348" height="48" rx="6" fill="#1a1020" stroke="#ec5f67" stroke-width="1"/>
+  <text x="218" y="349" text-anchor="middle" fill="#ec5f67" font-size="11" font-weight="600">rows, _ := db.Query(...)</text>
+  <text x="218" y="366" text-anchor="middle" class="sub">// rows.Close() missing → leak</text>
+
+  <!-- ── RIGHT: With defer rows.Close() ── -->
+  <text x="615" y="56" text-anchor="middle" fill="#5fb3b3" font-weight="700" font-size="13">✅  With defer rows.Close()</text>
+
+  <text x="424" y="90"  class="sub">Request 1</text>
+  <path d="M484 86 L542 86"   class="arrow-act" marker-end="url(#ah-act)"/>
+  <text x="424" y="116" class="sub">Request 2</text>
+  <path d="M484 112 L542 112" class="arrow-act" marker-end="url(#ah-act)"/>
+  <text x="424" y="142" class="sub">Request 3</text>
+  <path d="M484 138 L542 138" class="arrow-act" marker-end="url(#ah-act)"/>
+
+  <rect x="544" y="74"  width="110" height="24" rx="4" class="slot-act"/>
+  <text x="599" y="91"  text-anchor="middle" fill="#5fb3b3" font-size="11" font-weight="600">C1 — in use</text>
+  <rect x="544" y="100" width="110" height="24" rx="4" class="slot-act"/>
+  <text x="599" y="117" text-anchor="middle" fill="#5fb3b3" font-size="11" font-weight="600">C2 — in use</text>
+  <rect x="544" y="126" width="110" height="24" rx="4" class="slot-idle"/>
+  <text x="599" y="143" text-anchor="middle" fill="#c0c5ce" font-size="11">C3 — idle ✓</text>
+  <rect x="544" y="152" width="110" height="24" rx="4" class="slot-idle"/>
+  <text x="599" y="169" text-anchor="middle" fill="#c0c5ce" font-size="11">C4 — idle ✓</text>
+  <rect x="544" y="178" width="110" height="24" rx="4" class="slot-idle"/>
+  <text x="599" y="195" text-anchor="middle" fill="#c0c5ce" font-size="11">C5 — idle ✓</text>
+
+  <path d="M654 86 L720 86"   class="arrow-act" marker-end="url(#ah-act)"/>
+  <path d="M654 112 L720 112" class="arrow-act" marker-end="url(#ah-act)"/>
+  <text x="724" y="91"  class="sub">returned ✓</text>
+  <text x="724" y="117" class="sub">returned ✓</text>
+
+  <!-- Request 4 succeeds -->
+  <text x="424" y="240" class="sub">Request 4</text>
+  <path d="M484 236 L542 236" class="arrow-act" marker-end="url(#ah-act)"/>
+  <rect x="544" y="224" width="190" height="28" rx="4" class="box-active"/>
+  <text x="639" y="243" text-anchor="middle" fill="#5fb3b3" font-weight="600" font-size="12">gets connection ✅</text>
+
+  <text x="615" y="288" text-anchor="middle" class="sub">pool healthy — WaitCount stays at 0</text>
+  <text x="615" y="304" text-anchor="middle" fill="#5fb3b3" font-size="11">connections cycle in and out cleanly</text>
+
+  <rect x="424" y="328" width="348" height="48" rx="6" fill="#0d1f1f" stroke="#5fb3b3" stroke-width="1"/>
+  <text x="598" y="349" text-anchor="middle" fill="#5fb3b3" font-size="11" font-weight="600">rows, _ := db.Query(...)</text>
+  <text x="598" y="366" text-anchor="middle" class="sub">defer rows.Close()  // ← connection returned</text>
+</svg>

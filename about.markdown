@@ -2,6 +2,7 @@
 layout: page
 title: About
 permalink: /about/
+description: About Muhammad Huzair, a backend software engineer specializing in Go, distributed systems, PostgreSQL, reliability, and production debugging.
 ---
 
 ## Hi, I'm Muhammad Huzair 👋

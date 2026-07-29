@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 310" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="13">
+  <style>
+    .box        { fill: #1f2937; stroke: #5fb3b3; stroke-width: 1.5; }
+    .box-active { fill: #114b4b; stroke: #5fb3b3; stroke-width: 2; }
+    .box-leak   { fill: #3b1f1f; stroke: #ec5f67; stroke-width: 2; stroke-dasharray: 5 4; }
+    .label      { fill: #e5e9f0; font-weight: 600; }
+    .sub        { fill: #c0c5ce; font-size: 11px; }
+    .arrow-act  { stroke: #5fb3b3; stroke-width: 2; fill: none; }
+    .arrow-red  { stroke: #ec5f67; stroke-width: 2; fill: none; }
+    .title      { fill: #e5e9f0; font-weight: 700; font-size: 14px; }
+  </style>
+  <defs>
+    <marker id="ah-act" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L8,3 z" fill="#5fb3b3"/>
+    </marker>
+    <marker id="ah-red" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L0,6 L8,3 z" fill="#ec5f67"/>
+    </marker>
+  </defs>
+
+  <!-- Title -->
+  <text x="410" y="26" text-anchor="middle" class="title">Goroutine Lifecycle: Healthy vs Leaked</text>
+
+  <!-- Divider -->
+  <line x1="410" y1="40" x2="410" y2="302" stroke="#374151" stroke-width="1" stroke-dasharray="6 4"/>
+
+  <!-- ── LEFT: Healthy ── -->
+  <text x="205" y="56" text-anchor="middle" fill="#5fb3b3" font-weight="700" font-size="13">✅  Healthy Goroutine</text>
+
+  <rect x="20"  y="80" width="80" height="36" rx="6" class="box-active"/>
+  <text x="60"  y="103" text-anchor="middle" class="label" font-size="12">spawn</text>
+  <path d="M100 98 L136 98" class="arrow-act" marker-end="url(#ah-act)"/>
+
+  <rect x="138" y="80" width="80" height="36" rx="6" class="box-active"/>
+  <text x="178" y="103" text-anchor="middle" class="label" font-size="12">running</text>
+  <path d="M218 98 L254 98" class="arrow-act" marker-end="url(#ah-act)"/>
+
+  <rect x="256" y="80" width="70" height="36" rx="6" class="box-active"/>
+  <text x="291" y="103" text-anchor="middle" class="label" font-size="12">done</text>
+  <path d="M326 98 L358 98" class="arrow-act" marker-end="url(#ah-act)"/>
+
+  <rect x="360" y="80" width="60" height="36" rx="6" class="box"/>
+  <text x="390" y="103" text-anchor="middle" class="label" font-size="12">GC'd</text>
+
+  <!-- Sub-labels -->
+  <text x="60"  y="132" text-anchor="middle" class="sub">go func()</text>
+  <text x="178" y="132" text-anchor="middle" class="sub">doing work</text>
+  <text x="291" y="132" text-anchor="middle" class="sub">returns</text>
+  <text x="390" y="132" text-anchor="middle" class="sub">freed</text>
+
+  <!-- Loop arrow back -->
+  <path d="M390 116 Q390 162 205 162 Q20 162 20 116" class="arrow-act" marker-end="url(#ah-act)"/>
+  <text x="205" y="180" text-anchor="middle" class="sub">next request spawns a fresh goroutine</text>
+
+  <!-- Memory info box -->
+  <rect x="50" y="204" width="300" height="72" rx="6" fill="#1e2533" stroke="#5fb3b3" stroke-width="1"/>
+  <text x="200" y="224" text-anchor="middle" fill="#5fb3b3" font-size="11" font-weight="600">Memory per goroutine</text>
+  <text x="200" y="242" text-anchor="middle" class="sub">initial stack: 2–8 KB</text>
+  <text x="200" y="258" text-anchor="middle" class="sub">grows as needed, shrinks on return</text>
+  <text x="200" y="274" text-anchor="middle" fill="#5fb3b3" font-size="11">GC reclaims on exit ✓</text>
+
+  <!-- ── RIGHT: Leaked ── -->
+  <text x="615" y="56" text-anchor="middle" fill="#ec5f67" font-weight="700" font-size="13">❌  Leaked Goroutine</text>
+
+  <rect x="420" y="80" width="80" height="36" rx="6" class="box-active"/>
+  <text x="460" y="103" text-anchor="middle" class="label" font-size="12">spawn</text>
+  <path d="M500 98 L536 98" class="arrow-act" marker-end="url(#ah-act)"/>
+
+  <rect x="538" y="80" width="80" height="36" rx="6" class="box-active"/>
+  <text x="578" y="103" text-anchor="middle" class="label" font-size="12">running</text>
+  <path d="M618 98 L654 98" class="arrow-red" marker-end="url(#ah-red)"/>
+
+  <rect x="656" y="68" width="140" height="56" rx="6" class="box-leak"/>
+  <text x="726" y="92"  text-anchor="middle" fill="#ec5f67" font-weight="700" font-size="12">BLOCKED</text>
+  <text x="726" y="110" text-anchor="middle" fill="#ec5f67" font-size="11">FOREVER</text>
+
+  <!-- Annotations from BLOCKED -->
+  <line x1="726" y1="124" x2="726" y2="148" stroke="#ec5f67" stroke-width="1" stroke-dasharray="3 2"/>
+  <text x="726" y="163" text-anchor="middle" fill="#ec5f67" font-size="11">never exits</text>
+  <text x="726" y="179" text-anchor="middle" class="sub">holds stack memory</text>
+  <text x="726" y="195" text-anchor="middle" class="sub">holds captured variables</text>
+  <text x="726" y="211" text-anchor="middle" class="sub">scheduler still tracks it</text>
+
+  <!-- Accumulation box -->
+  <rect x="420" y="228" width="380" height="62" rx="6" fill="#1a1020" stroke="#ec5f67" stroke-width="1"/>
+  <text x="610" y="249" text-anchor="middle" fill="#ec5f67" font-size="11" font-weight="600">100,000 leaked goroutines</text>
+  <text x="610" y="267" text-anchor="middle" class="sub">= 200 MB–800 MB of memory doing nothing</text>
+  <text x="610" y="283" text-anchor="middle" class="sub">+ scheduler overhead → latency spikes</text>
+</svg>

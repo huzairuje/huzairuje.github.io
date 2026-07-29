@@ -46,8 +46,8 @@ layout: default
             {{ post.title | escape }}
           </a>
         </h3>
-        {%- if site.show_excerpts -%}
-          {{ post.excerpt }}
+        {%- if post.description -%}
+          <p>{{ post.description | escape }}</p>
         {%- endif -%}
       </li>
       {%- endfor -%}

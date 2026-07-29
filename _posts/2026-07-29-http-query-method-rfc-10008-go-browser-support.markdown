@@ -1,10 +1,10 @@
 ---
 layout: post
-title: "HTTP QUERY Is Finally Standard: RFC 10008, Go, Framework, and Browser Support"
+title: "HTTP QUERY in RFC 10008: Go and Browser Support"
 date: 2026-07-29 09:00:00 +0700
 categories: golang backend http
 tags: [golang, http, rfc10008, query-method, browser, cors, api-design]
-description: "RFC 10008 standardizes HTTP QUERY: a safe, idempotent request with content. Here is what it means, what Go and popular frameworks support, and where browsers, redirects, retries, proxies, and caches still need care."
+description: "RFC 10008 standardizes HTTP QUERY as a safe, idempotent method with content. Learn its semantics and current Go, framework, and browser support."
 ---
 
 In June 2026, the IETF published [RFC 10008: The HTTP QUERY Method](https://www.rfc-editor.org/rfc/rfc10008.html). HTTP now has a standard answer for an awkward API-design problem: how do you send a large or structured read-only query without squeezing it into a URL or pretending that a `POST` is a read?
