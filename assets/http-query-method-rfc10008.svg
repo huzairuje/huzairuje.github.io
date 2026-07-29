@@ -1,0 +1,88 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 560" role="img" aria-labelledby="title desc" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">
+  <title id="title">HTTP GET, QUERY, and POST compared, with browser and Go support path</title>
+  <desc id="desc">GET is safe and idempotent but has no defined request-content semantics. QUERY is safe and idempotent and expects request content. POST expects content but is not necessarily safe or idempotent. A browser QUERY crosses a CORS preflight, gateway policy, Go router, and content-aware cache.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M0 0L8 4L0 8Z" fill="#8fa1b3"/>
+    </marker>
+    <style>
+      .bg { fill:#111827 }
+      .panel { fill:#1f2937; stroke:#4b5563; stroke-width:1.5 }
+      .query { fill:#0f3d3e; stroke:#5fb3b3; stroke-width:2 }
+      .warn { fill:#3d2f16; stroke:#fac863; stroke-width:1.5 }
+      .title { fill:#f3f4f6; font-size:20px; font-weight:700 }
+      .method { fill:#f3f4f6; font-size:18px; font-weight:700 }
+      .label { fill:#d1d5db; font-size:13px }
+      .small { fill:#aeb8c4; font-size:12px }
+      .yes { fill:#5fb3b3; font-size:13px; font-weight:700 }
+      .no { fill:#ec5f67; font-size:13px; font-weight:700 }
+      .caution { fill:#fac863; font-size:12px; font-weight:700 }
+      .line { stroke:#8fa1b3; stroke-width:1.5; fill:none; marker-end:url(#arrow) }
+    </style>
+  </defs>
+
+  <rect class="bg" width="960" height="560" rx="12"/>
+  <text x="480" y="34" text-anchor="middle" class="title">RFC 10008: QUERY fills the gap between GET and POST</text>
+
+  <rect x="30" y="58" width="280" height="190" rx="10" class="panel"/>
+  <text x="170" y="91" text-anchor="middle" class="method">GET</text>
+  <text x="55" y="126" class="label">safe</text><text x="280" y="126" text-anchor="end" class="yes">yes</text>
+  <text x="55" y="155" class="label">idempotent</text><text x="280" y="155" text-anchor="end" class="yes">yes</text>
+  <text x="55" y="184" class="label">content semantics</text><text x="280" y="184" text-anchor="end" class="no">none</text>
+  <text x="55" y="220" class="small">Best for ordinary, linkable reads</text>
+
+  <rect x="340" y="58" width="280" height="190" rx="10" class="query"/>
+  <text x="480" y="91" text-anchor="middle" class="method">QUERY</text>
+  <text x="365" y="126" class="label">safe</text><text x="590" y="126" text-anchor="end" class="yes">yes</text>
+  <text x="365" y="155" class="label">idempotent</text><text x="590" y="155" text-anchor="end" class="yes">yes</text>
+  <text x="365" y="184" class="label">content semantics</text><text x="590" y="184" text-anchor="end" class="yes">expected</text>
+  <text x="365" y="220" class="small">Large, structured, read-only query</text>
+
+  <rect x="650" y="58" width="280" height="190" rx="10" class="panel"/>
+  <text x="790" y="91" text-anchor="middle" class="method">POST</text>
+  <text x="675" y="126" class="label">safe</text><text x="900" y="126" text-anchor="end" class="no">not guaranteed</text>
+  <text x="675" y="155" class="label">idempotent</text><text x="900" y="155" text-anchor="end" class="no">not guaranteed</text>
+  <text x="675" y="184" class="label">content semantics</text><text x="900" y="184" text-anchor="end" class="yes">expected</text>
+  <text x="675" y="220" class="small">Submission or state-changing work</text>
+
+  <text x="35" y="286" class="method">A QUERY request in practice</text>
+
+  <rect x="30" y="310" width="150" height="88" rx="8" class="panel"/>
+  <text x="105" y="340" text-anchor="middle" class="method" font-size="15">Browser</text>
+  <text x="105" y="365" text-anchor="middle" class="yes">fetch(): yes</text>
+  <text x="105" y="384" text-anchor="middle" class="no">form: no</text>
+
+  <path d="M180 354H240" class="line"/>
+  <text x="210" y="301" text-anchor="middle" class="caution">cross-origin</text>
+
+  <rect x="240" y="310" width="150" height="88" rx="8" class="warn"/>
+  <text x="315" y="340" text-anchor="middle" class="method" font-size="15">CORS</text>
+  <text x="315" y="365" text-anchor="middle" class="caution">OPTIONS preflight</text>
+  <text x="315" y="384" text-anchor="middle" class="small">allow QUERY</text>
+
+  <path d="M390 354H450" class="line"/>
+
+  <rect x="450" y="310" width="150" height="88" rx="8" class="warn"/>
+  <text x="525" y="340" text-anchor="middle" class="method" font-size="15">Gateway</text>
+  <text x="525" y="365" text-anchor="middle" class="caution">method allowlist</text>
+  <text x="525" y="384" text-anchor="middle" class="small">must pass QUERY</text>
+
+  <path d="M600 354H660" class="line"/>
+
+  <rect x="660" y="310" width="150" height="88" rx="8" class="query"/>
+  <text x="735" y="340" text-anchor="middle" class="method" font-size="15">Go handler</text>
+  <text x="735" y="365" text-anchor="middle" class="yes">routing: yes</text>
+  <text x="735" y="384" text-anchor="middle" class="small">validate Content-Type</text>
+
+  <path d="M810 354H870V425H800" class="line"/>
+
+  <rect x="570" y="425" width="360" height="96" rx="8" class="warn"/>
+  <text x="750" y="456" text-anchor="middle" class="method" font-size="15">Cache / equivalent GET resource</text>
+  <text x="750" y="481" text-anchor="middle" class="caution">cache key must include content + metadata</text>
+  <text x="750" y="503" text-anchor="middle" class="small">or return Location and use GET later</text>
+
+  <rect x="30" y="425" width="500" height="96" rx="8" class="panel"/>
+  <text x="55" y="457" class="method" font-size="15">Support is more than accepting a token</text>
+  <text x="55" y="483" class="small">Check retries · 301/302 redirects · CORS · WAF · metrics · SDKs</text>
+  <text x="55" y="505" class="small">Test the complete path before replacing an existing GET or POST API.</text>
+</svg>
