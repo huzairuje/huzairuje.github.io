@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" role="img" aria-labelledby="title desc" font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace">
-  <title id="title">Huzairuje — Go Backend Engineering</title>
-  <desc id="desc">Default social preview for Huzairuje articles about production Go backends, distributed systems, databases, and reliability.</desc>
+  <title id="title">Huzairuje — Backend Engineering</title>
+  <desc id="desc">Default social preview for Huzairuje articles about production backends, distributed systems, databases, and reliability.</desc>
   <defs>
     <linearGradient id="background" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0" stop-color="#111827"/>
@@ -16,7 +16,7 @@
   <rect x="110" y="112" width="76" height="76" rx="14" fill="#5fb3b3"/>
   <path d="M130 128v44h11v-17h14v17h11v-44h-11v17h-14v-17z" fill="#111827"/>
   <text x="210" y="164" fill="#f3f4f6" font-size="34" font-weight="700">HUZAIRUJE</text>
-  <text x="110" y="306" fill="#f3f4f6" font-size="62" font-weight="700">Go Backend Engineering</text>
+  <text x="110" y="306" fill="#f3f4f6" font-size="62" font-weight="700">Backend Engineering</text>
   <text x="110" y="378" fill="#5fb3b3" font-size="32">Production bugs, systems, and fixes.</text>
   <text x="110" y="490" fill="#aeb8c4" font-size="24">Distributed systems · Databases · Reliability · Performance</text>
 </svg>

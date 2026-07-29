@@ -5,11 +5,11 @@
 
 # ─── Site Identity ───────────────────────────────────────────────────────────
 title: Huzairuje
-tagline: Go Backend Engineering
+tagline: Backend Engineering
 email: muhammadhuzair@gmail.com
 description: >-
-  Production-focused Go backend engineering: distributed systems, databases,
-  reliability, performance, and real-world debugging.
+  Production-focused backend engineering: distributed systems, databases,
+  reliability, performance, Go, and real-world debugging.
 url: "https://huzairuje.github.io"
 baseurl: ""
 lang: en
